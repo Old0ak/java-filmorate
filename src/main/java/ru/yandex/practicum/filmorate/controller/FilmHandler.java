@@ -3,7 +3,6 @@ package ru.yandex.practicum.filmorate.controller;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.exceptions.DateValidationException;
-import ru.yandex.practicum.filmorate.exceptions.IdNotExistException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.validators.IdExistValidator;
 

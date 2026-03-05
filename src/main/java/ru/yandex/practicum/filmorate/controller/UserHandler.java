@@ -41,10 +41,4 @@ public class UserHandler {
             user.setName(user.getLogin());
         }
     }
-
-//    private void validateIdNotExist(User user) {
-//        if (!users.containsKey(user.getId())) {
-//            throw new IdNotExistException("Пользователь с id " + user.getId() + " не найден");
-//        }
-//    }
 }

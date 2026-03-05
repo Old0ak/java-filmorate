@@ -7,7 +7,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import ru.yandex.practicum.filmorate.controller.UserController;
 
-public class UserControllerTest extends ControllerByTest{
+public class UserControllerTest extends ControllerByTest {
 
     public UserControllerTest() {
         PATH = "/users";

@@ -1,8 +1,8 @@
-package ru.yandex.practicum.filmorate.controller;
+package ru.yandex.practicum.filmorate.storage.user.memory;
 
-import jakarta.validation.Valid;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 import ru.yandex.practicum.filmorate.validators.IdExistValidator;
 
 import java.util.ArrayList;
@@ -10,35 +10,36 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Service
-public class UserHandler {
+@Component
+public class InMemoryUserStorage implements UserStorage {
 
     private final Map<Long, User> users = new HashMap<>();
     private final IdExistValidator idExistValidator = new IdExistValidator();
 
     private Long generatedId = 0L;
 
-    public User createUser(@Valid User user) {
-        validateNameIsNull(user);
+    @Override
+    public User createUser(User user) {
         user.setId(++generatedId);
         users.put(user.getId(), user);
         return user;
     }
 
-    public User updateUser(@Valid User user) {
+    @Override
+    public User updateUser(User user) {
         idExistValidator.validate(user, users, "Пользователь");
-        validateNameIsNull(user);
         users.put(user.getId(), user);
         return user;
     }
 
+    @Override
     public List<User> getAll() {
         return new ArrayList<>(users.values());
     }
 
-    private void validateNameIsNull(User user) {
-        if (user.getName() == null) {
-            user.setName(user.getLogin());
-        }
+    @Override
+    public User getById(Long id) {
+        idExistValidator.validate(users.get(id), users, "Пользователь");
+        return users.get(id);
     }
 }

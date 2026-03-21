@@ -111,12 +111,12 @@ public class UserControllerTest extends ControllerByTest {
                 .andExpect(MockMvcResultMatchers.content().json(responseBody))
                 .andExpect(MockMvcResultMatchers.status().isOk());
 
-        String requestBody2 = getContentFromFile("create/request/user/failUserId.json");
+        String requestBody2 = getContentFromFile(
+                "create/request/user/failUserId.json");
 
         mockMvc.perform(MockMvcRequestBuilders.put(PATH)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody2))
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
     }
-
 }

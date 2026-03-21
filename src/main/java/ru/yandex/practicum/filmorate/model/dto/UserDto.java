@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.model.request;
+package ru.yandex.practicum.filmorate.model.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @Value
 @Builder
 @AllArgsConstructor
-public class UserRequest {
+public class UserDto {
 
     long id;
 

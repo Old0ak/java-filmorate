@@ -3,7 +3,6 @@ package ru.yandex.practicum.filmorate.storage.user.memory;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.user.UserStorage;
-import ru.yandex.practicum.filmorate.validators.ValidatorId;
 
 import java.util.ArrayList;
 import java.util.HashMap;

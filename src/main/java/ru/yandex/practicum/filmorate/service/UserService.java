@@ -8,7 +8,6 @@ import ru.yandex.practicum.filmorate.model.dto.UserDto;
 import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 import ru.yandex.practicum.filmorate.validators.ValidatorId;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 

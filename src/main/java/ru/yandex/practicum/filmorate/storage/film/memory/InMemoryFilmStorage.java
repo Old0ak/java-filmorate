@@ -3,7 +3,6 @@ package ru.yandex.practicum.filmorate.storage.film.memory;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
-import ru.yandex.practicum.filmorate.validators.IdExistValidator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,7 +13,6 @@ import java.util.Map;
 public class InMemoryFilmStorage implements FilmStorage {
 
     private final Map<Long, Film> films = new HashMap<>();
-    private final IdExistValidator idExistValidator = new IdExistValidator();
 
     private Long generatedId = 0L;
 
@@ -27,7 +25,6 @@ public class InMemoryFilmStorage implements FilmStorage {
 
     @Override
     public Film update(Film film) {
-        idExistValidator.validate(film, films, "Фильм");
         films.put(film.getId(), film);
         return film;
     }
@@ -39,8 +36,11 @@ public class InMemoryFilmStorage implements FilmStorage {
 
     @Override
     public Film getById(Long id) {
-        idExistValidator.validate(films.get(id), films, "Фильм");
         return films.get(id);
     }
 
+    @Override
+    public Map<Long, Film> getFilms() {
+        return films;
+    }
 }

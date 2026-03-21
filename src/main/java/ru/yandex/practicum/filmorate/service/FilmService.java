@@ -35,7 +35,7 @@ public class FilmService {
 
         validateReleaseDate(film);
         validatorId.validate(film, filmStorage.getFilms(), "Фильм");
-        return mapper.toFilmDto( filmStorage.update(film));
+        return mapper.toFilmDto(filmStorage.update(film));
     }
 
     public List<FilmDto> getAll() {

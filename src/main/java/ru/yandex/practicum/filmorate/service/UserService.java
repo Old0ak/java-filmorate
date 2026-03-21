@@ -2,8 +2,11 @@ package ru.yandex.practicum.filmorate.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.yandex.practicum.filmorate.controller.mapper.UserMapper;
 import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.model.dto.UserDto;
 import ru.yandex.practicum.filmorate.storage.user.UserStorage;
+import ru.yandex.practicum.filmorate.validators.ValidatorId;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,28 +17,43 @@ import java.util.Set;
 public class UserService {
 
     private final UserStorage userStorage;
+    private final UserMapper mapper;
+    private final ValidatorId validatorId = new ValidatorId();
 
-    public User createUser(User user) {
+    public UserDto createUser(UserDto userDto) {
+        User user = mapper.toUser(userDto);
+
         validateNameIsNull(user);
-        return userStorage.createUser(user);
+        return mapper.toUserDto(userStorage.createUser(user));
     }
 
-    public User updateUser(User user) {
+    public UserDto updateUser(UserDto userDto) {
+        User user = mapper.toUser(userDto);
+
+        validatorId.validate(user, userStorage.getUsers(), "Пользователь");
         validateNameIsNull(user);
-        return userStorage.updateUser(user);
+        return mapper.toUserDto(userStorage.updateUser(user));
     }
 
-    public List<User> getAll() {
-        return userStorage.getAll();
+    public List<UserDto> getAll() {
+        return userStorage.getAll().stream()
+                .map(mapper::toUserDto)
+                .toList();
     }
 
-    public User getUser(String id) {
-        return userStorage.getById(Long.valueOf(id));
+    public UserDto getUser(String id) {
+        User user = userStorage.getById(Long.valueOf(id));
+
+        validatorId.validate(user, userStorage.getUsers(), "Пользователь");
+        return mapper.toUserDto(user);
     }
 
     public void addFriend(String id, String friendId) {
         User user = userStorage.getById(Long.valueOf(id));
         User friend = userStorage.getById(Long.valueOf(friendId));
+
+        validatorId.validate(user, userStorage.getUsers(), "Пользователь");
+        validatorId.validate(friend, userStorage.getUsers(), "Пользователь");
 
         user.getFriends().add(friend);
         friend.getFriends().add(user);
@@ -45,26 +63,37 @@ public class UserService {
         User user = userStorage.getById(Long.valueOf(id));
         User friend = userStorage.getById(Long.valueOf(friendId));
 
+        validatorId.validate(user, userStorage.getUsers(), "Пользователь");
+        validatorId.validate(friend, userStorage.getUsers(), "Пользователь");
+
         user.getFriends().remove(friend);
         friend.getFriends().remove(user);
     }
 
-    public List<User> getUserFriends(String id) {
+    public List<UserDto> getUserFriends(String id) {
         User user = userStorage.getById(Long.valueOf(id));
 
-        return user.getFriends().stream().toList();
+        validatorId.validate(user, userStorage.getUsers(), "Пользователь");
+        return user.getFriends().stream()
+                .map(mapper::toUserDto)
+                .toList();
     }
 
-    public List<User> getCommonFriends(String id, String otherId) {
+    public List<UserDto> getCommonFriends(String id, String otherId) {
         User user = userStorage.getById(Long.valueOf(id));
         User otherUser = userStorage.getById(Long.valueOf(otherId));
+
+        validatorId.validate(user, userStorage.getUsers(), "Пользователь");
+        validatorId.validate(otherUser, userStorage.getUsers(), "Пользователь");
 
         Set<User> userFriends = user.getFriends();
         Set<User> otherUserFriends = otherUser.getFriends();
 
         userFriends.retainAll(otherUserFriends);
 
-        return new ArrayList<>(userFriends);
+        return userFriends.stream()
+                .map(mapper::toUserDto)
+                .toList();
     }
 
     private void validateNameIsNull(User user) {

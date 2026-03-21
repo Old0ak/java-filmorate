@@ -18,7 +18,7 @@ import java.util.List;
 public class UserController {
 
     private final UserService service;
-    private final UserMapper mapper;
+
 
     @PostMapping
     public UserResponse create(@Valid @RequestBody final UserRequest request) {

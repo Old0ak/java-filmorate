@@ -18,7 +18,6 @@ import java.util.List;
 public class FilmController {
 
     private final FilmService service;
-    private final FilmMapper mapper;
 
     @PostMapping
     public FilmResponse create(@Valid @RequestBody final FilmRequest request) {

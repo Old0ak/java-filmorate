@@ -1,11 +1,11 @@
 package ru.yandex.practicum.filmorate.model;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Min;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Builder
@@ -13,19 +13,20 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class User implements Identifiable {
 
+    @Min(1)
     private long id;
 
-    @NotBlank
-    @Email
     private String email;
 
-    @NotBlank
     private String login;
 
     private String name;
 
-    @PastOrPresent
     private LocalDate birthday;
+
+    @Builder.Default
+    @EqualsAndHashCode.Exclude
+    private Set<User> friends = new HashSet<>();
 
     @Override
     public Long getId() {

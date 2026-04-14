@@ -4,7 +4,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.model.dto.UserDto;
+import ru.yandex.practicum.filmorate.service.UserService;
 
 import java.util.List;
 
@@ -14,22 +15,30 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserHandler userHandler;
+    private final UserService service;
+
 
     @PostMapping
-    public User create(@Valid @RequestBody User user) {
-        log.info("Начато создание пользователя {}", user);
-        return userHandler.createUser(user);
+    public UserDto create(@Valid @RequestBody final UserDto userDto) {
+        log.info("Начато создание пользователя {}", userDto);
+        return service.createUser(userDto);
     }
 
     @PutMapping
-    public User update(@Valid @RequestBody User user) {
-        log.info("Начата обновление пользователя {}", user);
-        return userHandler.updateUser(user);
+    public UserDto update(@Valid @RequestBody final UserDto userDto) {
+        log.info("Начата обновление пользователя {}", userDto);
+        return service.updateUser(userDto);
     }
 
     @GetMapping
-    public List<User> getAll() {
-        return userHandler.getAll();
+    public List<UserDto> getAll() {
+        log.info("Начато выведение всех пользователей");
+        return service.getAll();
+    }
+
+    @GetMapping("/{id}")
+    public UserDto getUser(@PathVariable final String id) {
+        log.info("Начато выведение пользователя с id: {}", id);
+        return service.getUser(id);
     }
 }

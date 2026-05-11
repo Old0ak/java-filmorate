@@ -4,7 +4,9 @@ import jakarta.validation.constraints.Min;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -30,6 +32,11 @@ public class Film implements Identifiable {
     @Builder.Default
     @EqualsAndHashCode.Exclude
     private Set<User> likes = new HashSet<>();
+
+    private Mpa mpa;
+
+    @Builder.Default
+    private List<Genre> genres = new ArrayList<>();
 
     @Override
     public Long getId() {

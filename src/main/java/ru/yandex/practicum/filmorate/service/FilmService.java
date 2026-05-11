@@ -5,10 +5,10 @@ import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.controller.mapper.FilmMapper;
 import ru.yandex.practicum.filmorate.exceptions.DateValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.model.dto.FilmDto;
-import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
-import ru.yandex.practicum.filmorate.storage.user.UserStorage;
+import ru.yandex.practicum.filmorate.storage.*;
 import ru.yandex.practicum.filmorate.validators.ValidatorId;
 
 import java.time.LocalDate;
@@ -20,6 +20,9 @@ public class FilmService {
 
     private final FilmStorage filmStorage;
     private final UserStorage userStorage;
+    private final LikeStorage likeStorage;
+    private final MpaStorage mpaStorage;
+    private final GenreStorage genreStorage;
     private final FilmMapper mapper;
     private final ValidatorId validatorId = new ValidatorId();
 
@@ -27,6 +30,15 @@ public class FilmService {
         Film film = mapper.toFilm(filmDto);
 
         validateReleaseDate(film);
+        validatorId.validate(film.getMpa(), mpaStorage.getMpas(), "Рейтинг MPA");
+
+        List<Genre> genres = film.getGenres();
+        if (genres != null) {
+            for (Genre genre : genres) {
+                validatorId.validate(genre, genreStorage.getGenres(), "Жанр");
+            }
+        }
+
         return mapper.toFilmDto(filmStorage.createFilm(film));
     }
 
@@ -35,6 +47,7 @@ public class FilmService {
 
         validateReleaseDate(film);
         validatorId.validate(film, filmStorage.getFilms(), "Фильм");
+        validatorId.validate(film.getMpa(), mpaStorage.getMpas(), "Рейтинг MPA");
         return mapper.toFilmDto(filmStorage.update(film));
     }
 
@@ -57,7 +70,8 @@ public class FilmService {
 
         validatorId.validate(film, filmStorage.getFilms(), "Фильм");
         validatorId.validate(user, userStorage.getUsers(), "Пользователь");
-        film.getLikes().add(user);
+
+        likeStorage.addLike(film.getId(), user.getId());
     }
 
     public void removeLike(String id, String userId) {
@@ -67,18 +81,13 @@ public class FilmService {
         validatorId.validate(film, filmStorage.getFilms(), "Фильм");
         validatorId.validate(user, userStorage.getUsers(), "Пользователь");
 
-        film.getLikes().remove(user);
+        likeStorage.removeLike(film.getId(), user.getId());
     }
 
     public List<FilmDto> getPopularFilms(int count) {
-        List<Film> films = filmStorage.getAll();
-
-        List<FilmDto> sortedFilms = films.stream()
-                .sorted((f1, f2) -> Integer.compare(f2.getLikes().size(), f1.getLikes().size()))
+        return filmStorage.getPopularFilms(count).stream()
                 .map(mapper::toFilmDto)
                 .toList();
-
-        return sortedFilms.subList(0, Math.min(count, sortedFilms.size()));
     }
 
     private void validateReleaseDate(Film film) {

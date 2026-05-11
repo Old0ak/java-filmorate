@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.model.dto.UserDto;
-import ru.yandex.practicum.filmorate.service.UserService;
+import ru.yandex.practicum.filmorate.service.FriendService;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FriendController {
 
-    private final UserService service;
+    private final FriendService service;
 
     @PutMapping("/{friendId}")
     public void addFriend(@PathVariable final String id, @PathVariable final String friendId) {

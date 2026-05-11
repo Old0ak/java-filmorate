@@ -41,18 +41,6 @@ public class FilmController {
         return service.getFilm(id);
     }
 
-    @PutMapping("/{id}/like/{userId}")
-    public void addLike(@PathVariable final String id, @PathVariable final String userId) {
-        log.info("Начато постановка лайка фильму с id: {}, пользователем с id: {}", id, userId);
-        service.addLike(id, userId);
-    }
-
-    @DeleteMapping("/{id}/like/{userId}")
-    public void removeLike(@PathVariable final String id, @PathVariable final String userId) {
-        log.info("Начато удаление лайка с фильма id: {}, пользователем с id: {}", id, userId);
-        service.removeLike(id, userId);
-    }
-
     @GetMapping("/popular")
     public List<FilmDto> getPopularFilms(@RequestParam(defaultValue = "10") int count) {
         log.info("Начато выведение самых популярных фильмов в количестве: {}", count);

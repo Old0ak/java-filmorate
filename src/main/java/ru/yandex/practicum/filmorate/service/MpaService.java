@@ -1,6 +1,5 @@
 package ru.yandex.practicum.filmorate.service;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.controller.mapper.MpaMapper;
 import ru.yandex.practicum.filmorate.model.Mpa;
@@ -8,7 +7,6 @@ import ru.yandex.practicum.filmorate.model.dto.MpaDto;
 import ru.yandex.practicum.filmorate.storage.MpaStorage;
 import ru.yandex.practicum.filmorate.validators.ValidatorId;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

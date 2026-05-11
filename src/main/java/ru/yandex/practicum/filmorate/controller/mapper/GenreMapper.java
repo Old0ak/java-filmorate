@@ -8,7 +8,7 @@ import ru.yandex.practicum.filmorate.model.dto.GenreDto;
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface GenreMapper {
 
-    Genre ToGenre(GenreDto genreDto);
+    Genre toGenre(GenreDto genreDto);
 
-    GenreDto ToGenreDto(Genre genre);
+    GenreDto toGenreDto(Genre genre);
 }

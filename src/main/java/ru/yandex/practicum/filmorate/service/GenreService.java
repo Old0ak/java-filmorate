@@ -34,7 +34,7 @@ public class GenreService {
 
     public List<GenreDto> getAll() {
         return genreStorage.getAll().stream()
-                .map(mapper::ToGenreDto)
+                .map(mapper::toGenreDto)
                 .toList();
     }
 
@@ -42,7 +42,7 @@ public class GenreService {
         Genre genre = genreStorage.getGenre(Long.valueOf(id));
 
         validatorId.validate(genre, genreStorage.getGenres(), "Жанр");
-        return mapper.ToGenreDto(genre);
+        return mapper.toGenreDto(genre);
     }
 
     public void saveAllGenres() {

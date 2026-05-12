@@ -1,5 +1,3 @@
-DROP ALL OBJECTS;
-
 create table if not exists USERS
 (
     id       int          not null primary key auto_increment,

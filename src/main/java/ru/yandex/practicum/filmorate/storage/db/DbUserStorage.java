@@ -58,7 +58,7 @@ public class DbUserStorage implements UserStorage {
                 UPDATE users SET email = ?, login = ?, name = ?, birthday = ? WHERE id = ?
                 """;
 
-        jdbcTemplate.update(connection -> {
+        int rowsAffected = jdbcTemplate.update(connection -> {
             PreparedStatement stmt = connection.prepareStatement(sqlQuery);
             stmt.setString(1, entity.getEmail());
             stmt.setString(2, entity.getLogin());
@@ -67,6 +67,10 @@ public class DbUserStorage implements UserStorage {
             stmt.setLong(5, user.getId());
             return stmt;
         });
+
+        if (rowsAffected == 0) {
+            return null;
+        }
 
         return mapper.toUser(entity);
     }

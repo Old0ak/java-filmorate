@@ -32,7 +32,7 @@ public class DbUserStorage implements UserStorage {
         UserEntity entity = mapper.toUserEntity(user);
 
         final String sqlQuery = """
-                INSERT INTO users (email, login, name, birthday)
+                MERGE INTO users (email, login, name, birthday)
                 VALUES (?, ?, ?, ?)
                 """;
 

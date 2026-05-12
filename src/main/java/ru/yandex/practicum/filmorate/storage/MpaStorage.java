@@ -11,7 +11,5 @@ public interface MpaStorage {
 
     List<Mpa> getAll();
 
-    void save(Mpa mpa);
-
     Map<Long, Mpa> getMpas();
 }

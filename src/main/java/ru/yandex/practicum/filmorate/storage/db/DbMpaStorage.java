@@ -1,7 +1,6 @@
 package ru.yandex.practicum.filmorate.storage.db;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.model.Mpa;
@@ -35,17 +34,6 @@ public class DbMpaStorage implements MpaStorage {
         });
 
         return entities.isEmpty() ? null : mapper.toMpa(entities.get(0));
-    }
-
-    @Override
-    public void save(Mpa mpa) {
-        try {
-            String insertSql = "INSERT INTO mpa (id, name) VALUES (?, ?)";
-            jdbcTemplate.update(insertSql, mpa.getId(), mpa.getName());
-        } catch (DuplicateKeyException e) {
-            String updateSql = "UPDATE mpa SET name = ? WHERE id = ?";
-            jdbcTemplate.update(updateSql, mpa.getName(), mpa.getId());
-        }
     }
 
     @Override

@@ -18,5 +18,4 @@ public interface GenreStorage {
 
     Map<Long, Genre> getGenres();
 
-    void save(Genre genre);
 }

@@ -1,7 +1,6 @@
 package ru.yandex.practicum.filmorate.storage.db;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.model.Film;
@@ -101,16 +100,5 @@ public class DbGenreStorage implements GenreStorage {
         return entities.stream()
                 .map(mapper::toGenre)
                 .collect(Collectors.toMap(Genre::getId, genre -> genre));
-    }
-
-    @Override
-    public void save(Genre genre) {
-        try {
-            String insertSql = "INSERT INTO genres (id, name) VALUES (?, ?)";
-            jdbcTemplate.update(insertSql, genre.getId(), genre.getName());
-        } catch (DuplicateKeyException e) {
-            String updateSql = "UPDATE genres SET name = ? WHERE id = ?";
-            jdbcTemplate.update(updateSql, genre.getName(), genre.getId());
-        }
     }
 }

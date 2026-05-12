@@ -172,6 +172,10 @@ public class DbFilmStorage implements FilmStorage {
             return entity[0];
         });
 
+        if (entity[0] == null) {
+            return null;
+        }
+
         entity[0].setGenres(genresEntity);
         return mapper.toFilm(entity[0]);
     }

@@ -30,11 +30,13 @@ public class FilmService {
         Film film = mapper.toFilm(filmDto);
 
         validateReleaseDate(film);
-        validatorId.validate(film.getMpa(), mpaStorage.getMpas(), "Рейтинг MPA");
 
-        List<Genre> genres = film.getGenres();
-        if (genres != null) {
-            for (Genre genre : genres) {
+        if (film.getMpa() != null) {
+            validatorId.validate(film.getMpa(), mpaStorage.getMpas(), "Рейтинг MPA");
+        }
+
+        if (film.getGenres() != null && !film.getGenres().isEmpty()) {
+            for (Genre genre : film.getGenres()) {
                 validatorId.validate(genre, genreStorage.getGenres(), "Жанр");
             }
         }
@@ -47,7 +49,11 @@ public class FilmService {
 
         validateReleaseDate(film);
         validatorId.validate(film, filmStorage.getFilms(), "Фильм");
-        validatorId.validate(film.getMpa(), mpaStorage.getMpas(), "Рейтинг MPA");
+
+        if (film.getMpa() != null) {
+            validatorId.validate(film.getMpa(), mpaStorage.getMpas(), "Рейтинг MPA");
+        }
+
         return mapper.toFilmDto(filmStorage.update(film));
     }
 

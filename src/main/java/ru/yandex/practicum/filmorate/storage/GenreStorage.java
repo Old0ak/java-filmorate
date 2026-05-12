@@ -12,8 +12,6 @@ public interface GenreStorage {
 
     List<Genre> getAll();
 
-    void load(List<Film> films);
-
     void saveGenresToFilm(Film film);
 
     Map<Long, Genre> getGenres();

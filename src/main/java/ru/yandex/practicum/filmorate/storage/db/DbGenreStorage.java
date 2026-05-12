@@ -80,11 +80,6 @@ public class DbGenreStorage implements GenreStorage {
     }
 
     @Override
-    public void load(List<Film> films) {
-
-    }
-
-    @Override
     public Map<Long, Genre> getGenres() {
         final String sqlQuery = """
                 SELECT id, name FROM genres

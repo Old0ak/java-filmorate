@@ -5,7 +5,8 @@ import org.mapstruct.MappingConstants;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.dto.FilmDto;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
+        uses = {MpaMapper.class, GenreMapper.class})
 public interface FilmMapper {
 
     Film toFilm(FilmDto filmDto);
